@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <!-- CREAZIONE TABELLE
+CREAZIONE TABELLE
 
 INSERT INTO cliente (name, surname, year_birth, country)
 VALUES 
@@ -79,14 +71,19 @@ ________________________________________________________________________________
 
 ESERCIZIO 5:
 Estrarre le fatture con importo inferiore a 100 e i dati dei clienti ad esse collegate.
+select * from fatture fc inner join clienti cc on cc.numero_cliente = fc.numero_cliente
+where importo < 1000
+oppure
 
-SELECT * FROM cliente
-WHERE cliente_id IN (
-	SELECT cliente_id 
-    	FROM invoices 
-    		WHERE amount < 1000
-	);
+SELECT fatture.* , clienti.*  FROM fatture JOIN clienti ON fatture.id_cliente = numero_cliente
+WHERE fatture.importo < 1000 
 
+opppure
+
+SELECT(fatture.numero_fattura, importo, clienti.id_cliente, clienti.nome, clienti.cognome, clienti.regione_residenza)
+from fatture
+JOIN clienti ON fatture.id_cliente = clienti.id_cliente
+WHERE fatture.importo < 1000;
 ___________________________________________________________________________________________________________________
 
 ESERCIZIO 6:
@@ -95,6 +92,11 @@ Riportare elenco delle fatture con aggiunta il nome del fornitore.
 SELECT num_invoice, amount, iva, date_invoice, supplier_name FROM invoices
 JOIN suppliers ON suppliers.supplier_id = invoices.supplier_id
 
+oppure
+
+SELECT fatture.numero_fattura, fatture.importo, fatture.iva, fatture.data_fattura, fornitori.numero_fornitore,  fornitori.denominazione
+from fatture
+JOIN fornitori ON fatture.numero_fornitore = fornitori.numero_fornitore
 ___________________________________________________________________________________________________________________
 
 ESERCIZIO 7:
@@ -103,6 +105,8 @@ Considerando soltanto le fatture con iva al 20%, estrarre il numero di fatture p
 SELECT EXTRACT(YEAR FROM date_invoice) AS anno, COUNT(*) AS numero_fatture FROM invoices
 WHERE iva = 20
 GROUP BY anno ORDER BY anno
+
+oppure
 
 ___________________________________________________________________________________________________________________
 
@@ -113,7 +117,3 @@ SELECT EXTRACT(YEAR FROM date_invoice) AS anno, COUNT(*) AS numero_fatture, SUM(
 GROUP BY anno ORDER BY anno
 
 ___________________________________________________________________________________________________________________
-
- -->
-  </body>
-</html>
